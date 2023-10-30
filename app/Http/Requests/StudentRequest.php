@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Support\Str;
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StudentRequest extends FormRequest
@@ -13,7 +13,7 @@ class StudentRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
-    // the authorize method is responsible for determining 
+    // the authorize method is responsible for determining
     //if the currently authenticated user can perform the action represented by the request,,
     public function authorize(): bool
     {
@@ -32,7 +32,7 @@ class StudentRequest extends FormRequest
         ];
     }
     // * Get the error messages for the defined validation rules.
-    
+
     public function messages(): array
     {
         return [
@@ -45,23 +45,28 @@ class StudentRequest extends FormRequest
     }
 
     protected function passedValidation(): void
-    {   dd($this->validated());
-        $this->replace(['name' => 'Taylor']);
-        $array = [
-            '1',
-            '2',
-        ];
-        []=5
+    {
+        dd(
+            // $this->validated(),
+            $this->all()
+        );
+        // $this->replace(['name' => 'Taylor']);
+
     }
 
     protected function prepareForValidation(): void
     {
+        // dd(
+        //     $this->validated(),
+        //     $this->all()
+        // );
         $this->merge([
             'name' => 'Taylor'
         ]);
-        
+
         // dd($this);
     }
+
     // public function after(): array
     // {
     //     return [
