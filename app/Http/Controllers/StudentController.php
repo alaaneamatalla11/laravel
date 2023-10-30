@@ -34,7 +34,16 @@ class StudentController extends Controller
     public function store(StudentRequest $request)
     {
         // $student = $request->all();
-        Student::create($request->validated());
+
+        // Retrieve the validated input data...
+        // $student = $request->validated();
+
+        // Retrieve a portion of the validated input data...
+        //$student = $request->safe()->only(['name', 'city']);
+        //$student = $request->safe()->except(['name', 'city']);
+        dd($request->all());
+        Student::create($request->all());
+    
         return redirect()->route('students.index');
     }
 
@@ -52,6 +61,8 @@ class StudentController extends Controller
     public function edit(Student $student)
     {
         return view ('students.edit', ['students'=>$student]);
+        // return view ('students.edit',compact('students'));
+
     }
 
     /**
@@ -59,17 +70,17 @@ class StudentController extends Controller
      */
     public function update(StudentRequest $request,Student $student)
     {
-        // $student->update([
+        $student->update($request->validated());
+        return redirect()->route ('students.index');
+
+         // $student->update([
         //     'name' => $request->name,
         //     'phone' => $request->phone,
         //     'city'=>$request->city,
         //     'address' => $request->address,
         // ]);
         //= 
- 
         //array of all rules on Request
-        $student->update($request->validated());
-        return redirect()->route ('students.index');
     }
 
     /**
@@ -78,7 +89,8 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         $student->delete();
-        // $students= Student::findorFail($id)->delete();
         return back();
+        // $students= Student::findorFail($id)->delete();
+
         }
 }
